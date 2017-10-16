@@ -1,0 +1,60 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+export	PS1="[`uname -n`:wdm] " \
+	SHELL=/bin/bash \
+	PAGER=less \
+	TZ=EDT
+
+export	LESS="-mx8" \
+	HISTFILE=${HOME}/.sh_history \
+	HISTSIZE=256 \
+	CDPATH=".:${HOME}"  \
+	TZ=EST
+
+set -o monitor
+set -o emacs
+umask 022
+
+#unalias l
+#unalias cp
+#unalias rm
+#unalias mv
+
+alias d="ls -l"
+alias m="$PAGER "
+alias h="fc -l"
+#alias e="$HOME/bin/e-xterm"
+alias l="ls -CF"
+alias cls="tput clear"
+alias dm="ls -l|$PAGER"
+alias late="ls -lt|head"
+#alias mail=$MAILER
+alias Q='Q=`pwd`'
+alias W='W=`pwd`'
+alias E='E=`pwd`'
+#alias prt="addcr | lpr -P$PRINTER"
+
+# function to change directory to the one set in the last opened finder.
+cdf () {
+   currFolderPath=$( /usr/bin/osascript <<"         EOT"
+       tell application "Finder"
+           try
+               set currFolder to (folder of the front window as alias)
+           on error
+               set currFolder to (path to desktop folder as alias)
+           end try
+           POSIX path of currFolder
+       end tell
+            EOT
+   )
+   echo "cd to \"$currFolderPath\""
+   cd "$currFolderPath"
+}
+
+
+export PATH="$HOME/.yarn/bin:$PATH"
